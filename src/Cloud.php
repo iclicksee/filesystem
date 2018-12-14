@@ -29,7 +29,7 @@ class Cloud  {
         
         $adapter = new AwsS3Adapter(
             $client, 
-            empty($config['S3_BUKET']) ? env('S3_BUKET') : $config['S3_BUKET'], 
+            empty($config['S3_BUCKET']) ? env('S3_BUCKET') : $config['S3_BUCKET'], 
             empty($config['prefix']) ? 'public' : $config['prefix']
         );
 
