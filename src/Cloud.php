@@ -14,28 +14,42 @@ class Cloud  {
      * Wrapper for connection to Flysystem object
      * @var
      */
-    public function initialize(array $config) {
 
-        parent::initialize($config);
+     /**
+     * Constructor.
+     */
+    public function __construct(array $config)
+    {
 
-        $this->client = S3Client::factory([
+        $client = S3Client::factory([
             'credentials' => [
-                'key'    => empty($config['S3_KEY']) ? env('S3_KEY') : $config['S3_KEY'],
-                'secret' => empty($config['S3_SECRET']) ? env('S3_SECRET') : $config['S3_SECRET'],
+                'key'    => empty($config['S3_KEY']) ? getenv('S3_KEY') : $config['S3_KEY'],
+                'secret' => empty($config['S3_SECRET']) ? getenv('S3_SECRET') : $config['S3_SECRET'],
             ],
-            'region' => empty($config['S3_SECRET']) ? env('S3_SECRET') : $config['S3_SECRET'],
-            'version' => 'latest|version',
+            'region' => empty($config['S3_REGION']) ? getenv('S3_REGION') : $config['S3_REGION'],
+            'version' => 'latest',
         ]);
         
         $adapter = new AwsS3Adapter(
             $client, 
-            empty($config['S3_BUCKET']) ? env('S3_BUCKET') : $config['S3_BUCKET'], 
+            empty($config['S3_BUCKET']) ? getenv('S3_BUCKET') : $config['S3_BUCKET'], 
             empty($config['prefix']) ? 'public' : $config['prefix']
         );
 
         $this->Filesystem = new Filesystem($adapter);
     }
 
+    /**
+     * Get the file info
+     * @param string $path
+     * @return bool|string
+     */
+    public function info(string $path) {
+        $response['timestamps'] = $this->Filesystem->getTimestamp($path);
+        $response['mimetype'] = $this->Filesystem->getMimeType($path);
+        return $response;
+    }
+    
     /**
      * Get the file contents from $path where $path is from root of bucket
      * @param $path
