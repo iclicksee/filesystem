@@ -1,6 +1,6 @@
 <?php
-namespace FileSystem;
-require 'vendor/autoload.php';
+namespace Iclicksee\FileSystem;
+
 use Aws\S3\S3Client;
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\Filesystem;
