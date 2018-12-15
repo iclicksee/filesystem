@@ -23,8 +23,8 @@ class Cloud  {
 
         $client = S3Client::factory([
             'credentials' => [
-                'key'    => empty($config['S3_KEY']) ? getenv('S3_KEY') : $config['S3_KEY'],
-                'secret' => empty($config['S3_SECRET']) ? getenv('S3_SECRET') : $config['S3_SECRET'],
+                'key'    => empty($config['AWS_ACCESS_KEY_ID']) ? getenv('AWS_ACCESS_KEY_ID') : $config['AWS_ACCESS_KEY_ID'],
+                'secret' => empty($config['AWS_SECRET_ACCESS_KEY']) ? getenv('AWS_SECRET_ACCESS_KEY') : $config['AWS_SECRET_ACCESS_KEY'],
             ],
             'region' => empty($config['S3_REGION']) ? getenv('S3_REGION') : $config['S3_REGION'],
             'version' => 'latest',
