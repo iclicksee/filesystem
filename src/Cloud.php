@@ -28,17 +28,20 @@ class Cloud {
                 'key'    => empty($config['AWS_ACCESS_KEY_ID']) ? getenv('AWS_ACCESS_KEY_ID') : $config['AWS_ACCESS_KEY_ID'],
                 'secret' => empty($config['AWS_SECRET_ACCESS_KEY']) ? getenv('AWS_SECRET_ACCESS_KEY') : $config['AWS_SECRET_ACCESS_KEY'],
             ],
-            'region' => $this->region,
+            'region' => empty($config['S3_REGION']) ? getenv('S3_REGION') : $config['S3_REGION'],
             'version' => 'latest',
         ]);
+
+        $buckets = $client->listBuckets();
         
         $adapter = new AwsS3Adapter(
             $client, 
             $this->bucketName, 
-            empty($config['prefix']) ? 'public' : $config['prefix']
+            ''
         );
 
         $this->Filesystem = new Filesystem($adapter);
+        
     }
 
     /**
@@ -50,6 +53,15 @@ class Cloud {
         $response['timestamps'] = $this->Filesystem->getTimestamp($path);
         $response['mimetype'] = $this->Filesystem->getMimeType($path);
         return $response;
+    }
+
+    /**
+     * write file from stream
+     * @param string $path
+     * @return bool|string
+     */
+    public function writeStream(string $path, $stream) {
+        $filesystem->writeStream($path, $stream);
     }
     
     /**
@@ -65,6 +77,25 @@ class Cloud {
         }
 
         return false;
+    }
+
+    /**
+     * Wrapper method for fetching the full URL of the object in the cloud at $path
+     * @param string $path
+     * @return mixed
+     */
+    public function has($path = '') {
+        return $this->Filesystem->has($path);
+    }
+
+    /**
+     * Wrapper method for copying from one path to another
+     * @param string $path
+     * @return mixed
+     */
+    public function copy($location, $destination) {
+        $response = $this->Filesystem->copy($location, $destination);
+        return $response;
     }
 
     /**
@@ -217,15 +248,6 @@ class Cloud {
 
         return $url;
 
-    }
-
-    /**
-     * Wrapper method for fetching the full URL of the object in the cloud at $path
-     * @param string $path
-     * @return mixed
-     */
-    public function has($path = '') {
-        return $this->Filesystem->has($path);
     }
 
 }
