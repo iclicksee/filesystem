@@ -8,7 +8,7 @@ use League\Flysystem\Filesystem;
 /**
  * Cloud component
  */
-class Cloud extends Filesystem {
+class Cloud {
 
     /**
      * Wrapper for connection to Flysystem object
