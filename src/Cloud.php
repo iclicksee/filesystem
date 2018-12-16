@@ -8,7 +8,7 @@ use League\Flysystem\Filesystem;
 /**
  * Cloud component
  */
-class Cloud  {
+class Cloud extends Filesystem {
 
     /**
      * Wrapper for connection to Flysystem object
@@ -215,6 +215,15 @@ class Cloud  {
 
         return $url;
 
+    }
+
+    /**
+     * Wrapper method for fetching the full URL of the object in the cloud at $path
+     * @param string $path
+     * @return mixed
+     */
+    public function has($path = '') {
+        return $this->Filesystem->has($path);
     }
 
 }
