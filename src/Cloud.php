@@ -20,8 +20,9 @@ class Cloud {
      */
     public function __construct(array $config)
     {
-        $this->bucket = empty($config['S3_BUCKET']) ? getenv('S3_BUCKET') : $config['S3_BUCKET'];
+        $this->bucketName = empty($config['S3_BUCKET']) ? getenv('S3_BUCKET') : $config['S3_BUCKET'];
         $this->region = empty($config['S3_REGION']) ? getenv('S3_REGION') : $config['S3_REGION'];
+
         $client = S3Client::factory([
             'credentials' => [
                 'key'    => empty($config['AWS_ACCESS_KEY_ID']) ? getenv('AWS_ACCESS_KEY_ID') : $config['AWS_ACCESS_KEY_ID'],
@@ -33,7 +34,7 @@ class Cloud {
         
         $adapter = new AwsS3Adapter(
             $client, 
-            $this->bucket, 
+            $this->bucketName, 
             empty($config['prefix']) ? 'public' : $config['prefix']
         );
 
