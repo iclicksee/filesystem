@@ -18,7 +18,7 @@
             "Iclicksee\\Filesystem\\": "src/"
         },
         "psr-0": {
-            "Iclicksee\\Filesystem\\": "lib"
+            "Iclicksee\\Filesystem\\": "src"
         }
     },
     "authors": [
