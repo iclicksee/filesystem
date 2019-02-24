@@ -16,6 +16,9 @@
     "autoload": {
         "psr-4": {
             "Iclicksee\\Filesystem\\": "src/"
+        },
+        "psr-0": {
+            "Iclicksee\\Filesystem\\": "lib"
         }
     },
     "authors": [
